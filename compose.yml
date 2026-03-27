@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    container_name: article_web
+    user: "1000:1000" 
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - article_db
+  article_db:
+    image: mysql:8.0
+    container_name: article_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: article_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - sql:/var/lib/mysql
+
+volumes:
+  sql:
