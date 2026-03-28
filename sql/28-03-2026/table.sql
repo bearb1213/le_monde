@@ -1,18 +1,27 @@
-CREATE TABLE IF NOT EXISTS articles (
-    id SERIAL PRIMARY KEY,
-        reference VARCHAR,
-    html TEXT,
-);
 
-CREATE TABLE IF NOT EXISTS article_images(
-    id SERIAL PRIMARY KEY,
-    article_id REFERENCES articles(id),
-    chemin VARCHAR(255)
-);
+CREATE TABLE IF NOT EXISTS `articles` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(255),
+    html TEXT
+) ;
 
-CREATE TABLE IF NOT EXISTS article_details(
-    id SERIAL PRIMARY KEY,
-        article_id INTEGER REFERENCES articles(id),
-        details INTEGER REFERENCES articles(id)
-);
+CREATE INDEX idx_reference ON articles(id);
+CREATE INDEX idx_reference ON articles(titre);
+
+
+CREATE TABLE IF NOT EXISTS article_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    article_id INT,
+    chemin VARCHAR(255),
+    alt TEXT,
+    CONSTRAINT fk_article_images_article FOREIGN KEY (article_id) REFERENCES articles(id)
+) ;
+
+CREATE TABLE IF NOT EXISTS article_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    article_id INT,
+    details INT,
+    CONSTRAINT fk_article_details_article FOREIGN KEY (article_id) REFERENCES articles(id),
+    CONSTRAINT fk_article_details_details FOREIGN KEY (details) REFERENCES articles(id)
+) ;
 
