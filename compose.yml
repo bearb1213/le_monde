@@ -1,8 +1,7 @@
 services:
   web:
     build: .
-    container_name: article_web
-    user: "1000:1000" 
+    container_name: article_web 
     ports:
       - "8000:80"
     volumes:
