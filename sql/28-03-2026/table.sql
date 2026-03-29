@@ -1,12 +1,12 @@
 
-CREATE TABLE IF NOT EXISTS `articles` (
+CREATE TABLE IF NOT EXISTS articles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(255),
     html TEXT
 ) ;
 
 CREATE INDEX idx_reference ON articles(id);
-CREATE INDEX idx_reference ON articles(titre);
+CREATE INDEX idx_titre ON articles(titre);
 
 
 CREATE TABLE IF NOT EXISTS article_images (
