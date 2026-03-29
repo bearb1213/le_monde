@@ -38,6 +38,34 @@ class ArticleDAO
         }
     }
 
+    public function findAllWithPagination(int $limit = 20, int $offset = 0): array
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT id, titre FROM articles ORDER BY id DESC LIMIT :limit OFFSET :offset');
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            $rows = $stmt->fetchAll();
+            $list = [];
+            foreach ($rows as $r) {
+                $list[] = Article::fromArray($r);
+            }
+            return $list;
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to fetch paginated articles: ' . $e->getMessage());
+        }
+    }
+
+    public function countAll(): int
+    {
+        try {
+            $stmt = $this->pdo->query('SELECT COUNT(id) FROM articles');
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to count articles: ' . $e->getMessage());
+        }
+    }
+
     public function findById($id)
     {
         try {

@@ -52,7 +52,7 @@ if (!isset($contentFile) || empty($contentFile)) {
     <nav class="nav">
       <a href="/backoffice/pages/index.php">Tableau de bord</a>
       <a href="/backoffice/pages/article/insert.php">Créer un article</a>
-      <a href="/backoffice/pages/article">Liste des articles</a>
+      <a href="/backoffice/pages/article/list.php">Liste des articles</a>
       <a href="/login/traitement-logout.php">Se déconnecter</a>
     </nav>
     <div style="margin-top:18px;font-size:0.9rem;color:#cbd5e1">Date: <?php echo date('Y-m-d'); ?></div>
