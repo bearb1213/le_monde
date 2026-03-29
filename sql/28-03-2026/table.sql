@@ -25,3 +25,8 @@ CREATE TABLE IF NOT EXISTS article_details (
     CONSTRAINT fk_article_details_details FOREIGN KEY (details) REFERENCES articles(id)
 ) ;
 
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
