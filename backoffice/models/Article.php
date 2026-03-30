@@ -7,6 +7,9 @@ class Article
     public $html;
     public $date_publication;
     public $auteur;
+    public $url;
+    public $images;
+
 
     public function __construct($id = null, $titre = null, $html = null, $date_publication = null, $auteur = null)
     {
@@ -15,6 +18,7 @@ class Article
         $this->html = $html;
         $this->date_publication = $date_publication;
         $this->auteur = $auteur;
+        $this->images = [];
     }
 
     public static function fromArray($row)

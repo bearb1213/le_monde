@@ -82,6 +82,23 @@ class ArticleDAO
         }
     }
 
+    public function findByIds(array $ids)
+    {
+        try {
+            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            $stmt = $this->pdo->prepare("SELECT * FROM articles WHERE id IN ($placeholders)");
+            $stmt->execute($ids);
+            $rows = $stmt->fetchAll();
+            $list = [];
+            foreach ($rows as $r) {
+                $list[] = Article::fromArray($r);
+            }
+            return $list;
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to fetch articles: ' . $e->getMessage());
+        }
+    }
+
     public function update($article)
     {
         try {
