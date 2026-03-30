@@ -1,12 +1,12 @@
 services:
   web:
     build: .
-    container_name: article_web
-    user: "1000:1000" 
+    container_name: article_web 
     ports:
       - "8000:80"
     volumes:
       - ./:/var/www/html
+      - images_volume:/var/www/html/images/articles
     depends_on:
       - article_db
   article_db:
@@ -25,3 +25,4 @@ services:
 
 volumes:
   sql:
+  images_volume:

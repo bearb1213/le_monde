@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Voir le code HTML TinyMCE</title>
+  <!-- Inclure TinyMCE local -->
+  <script src="tinymce/js/tinymce/tinymce.min.js"></script>
+</head>
+<body>
+
+<h1>Éditeur TinyMCE</h1>
+
+<form id="myForm">
+  <textarea id="myEditor" name="content">
+    <p>Écris ici ton texte...</p>
+  </textarea>
+  <br>
+  <button type="button" onclick="showHTML()">Voir le HTML</button>
+</form>
+
+<h2>Code HTML généré :</h2>
+<pre id="htmlOutput" style="background:#f0f0f0;padding:10px;"></pre>
+
+<script>
+  // Initialisation de TinyMCE
+  tinymce.init({
+    selector: '#myEditor',
+    plugins: 'lists link image',
+    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
+    height: 300,
+    license_key: 'gpl'
+  });
+
+  // Fonction pour récupérer et afficher le HTML
+  function showHTML() {
+    // tinymce.get('myEditor').getContent() récupère le HTML complet
+    const html = tinymce.get('myEditor').getContent();
+    document.getElementById('htmlOutput').textContent = html;
+  }
+</script>
+
+</body>
+</html>
