@@ -19,6 +19,7 @@ try {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Insérer un article</title>
+    <script src="../tinymce/js/tinymce/tinymce.min.js"></script>
     <style>
         body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
         label { display:block; margin-top:10px; font-weight:600; }
@@ -49,8 +50,10 @@ try {
         <div id="images-meta"></div>
 
         <!-- Input: HTML de l'article -->
-        <label for="html">Contenu HTML</label>
-        <textarea id="html" name="html" placeholder="Colle ton HTML ici..."></textarea>
+        <label for="myEditor">Contenu HTML</label>
+        <textarea id="myEditor" name="html" placeholder="Colle ton HTML ici...">
+            <p>Écris ici ton texte...</p>
+        </textarea>
 
         <!-- Trois selects d'articles de référence -->
         <label>Articles de référence (jusqu'à 3, optionnels)</label>
@@ -107,6 +110,17 @@ try {
                 renderList(e.target.files);
             });
         })();
+    </script>
+
+    <script>
+      // Initialisation de TinyMCE
+      tinymce.init({
+        selector: '#myEditor',
+        plugins: 'lists link image',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
+        height: 300,
+        license_key: 'gpl'
+      });
     </script>
 </body>
 </html>

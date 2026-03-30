@@ -47,7 +47,6 @@ ob_start();
             <li>
                 <a href="view.php?id=<?= $article->id ?>" class="title"><?= htmlspecialchars($article->titre) ?></a>
                 <div class="actions">
-                    <a href="view.php?id=<?= $article->id ?>">Voir</a>
                     <a href="edit.php?id=<?= $article->id ?>">Modifier</a>
                     <a href="delete.php?id=<?= $article->id ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">Supprimer</a>
                 </div>
