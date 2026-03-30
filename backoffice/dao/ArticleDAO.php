@@ -14,8 +14,12 @@ class ArticleDAO
     public function create($article)
     {
         try {
-            $stmt = $this->pdo->prepare('INSERT INTO articles (titre, html) VALUES (:titre, :html)');
-            $stmt->execute([':titre' => $article->titre, ':html' => $article->html]);
+            $stmt = $this->pdo->prepare('INSERT INTO articles (titre, html, auteur) VALUES (:titre, :html, :auteur)');
+            $stmt->execute([
+                ':titre' => $article->titre,
+                ':html' => $article->html,
+                ':auteur' => $article->auteur
+            ]);
             $article->id = (int)$this->pdo->lastInsertId();
             return $article;
         } catch (PDOException $e) {
@@ -41,7 +45,7 @@ class ArticleDAO
     public function findAllWithPagination(int $limit = 20, int $offset = 0): array
     {
         try {
-            $stmt = $this->pdo->prepare('SELECT id, titre FROM articles ORDER BY id DESC LIMIT :limit OFFSET :offset');
+            $stmt = $this->pdo->prepare('SELECT id, titre, date_publication, auteur FROM articles ORDER BY id DESC LIMIT :limit OFFSET :offset');
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
@@ -81,8 +85,13 @@ class ArticleDAO
     public function update($article)
     {
         try {
-            $stmt = $this->pdo->prepare('UPDATE articles SET titre = :titre, html = :html WHERE id = :id');
-            $stmt->execute([':titre' => $article->titre, ':html' => $article->html, ':id' => $article->id]);
+            $stmt = $this->pdo->prepare('UPDATE articles SET titre = :titre, html = :html, auteur = :auteur WHERE id = :id');
+            $stmt->execute([
+                ':titre' => $article->titre,
+                ':html' => $article->html,
+                ':auteur' => $article->auteur,
+                ':id' => $article->id
+            ]);
             return true;
         } catch (PDOException $e) {
             throw new RuntimeException('Failed to update article: ' . $e->getMessage());

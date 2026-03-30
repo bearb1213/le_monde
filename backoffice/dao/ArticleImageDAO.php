@@ -49,4 +49,15 @@ class ArticleImageDAO
             throw new RuntimeException('Failed to delete image: ' . $e->getMessage());
         }
     }
+
+    public function deleteByArticleId($articleId)
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM article_images WHERE article_id = :article_id');
+            $stmt->execute([':article_id' => $articleId]);
+            return true;
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to delete images by article ID: ' . $e->getMessage());
+        }
+    }
 }

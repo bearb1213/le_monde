@@ -53,6 +53,17 @@ ob_start();
 
 <a href="list.php">&larr; Retour à la liste</a>
 
+<div class="article-meta" style="margin-top: 1rem; color: #666;">
+    <span>Publié le: <?= htmlspecialchars(date('d/m/Y H:i', strtotime($article->date_publication))) ?></span>
+    <?php
+    // Pour afficher le nom de l'auteur, il faudrait une jointure ou une requête supplémentaire
+    // Ici, on affiche juste l'ID de l'auteur pour l'instant.
+    if ($article->auteur) {
+        echo ' | <span>Auteur ID: ' . htmlspecialchars($article->auteur) . '</span>';
+    }
+    ?>
+</div>
+
 <div class="article-content">
     <?php
     // On affiche directement le HTML stocké en base.

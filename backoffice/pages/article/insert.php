@@ -1,6 +1,7 @@
 <?php
 // backoffice/pages/article/insert.php
 // Formulaire d'insertion d'un article
+session_start();
 
 require_once __DIR__ . '/../../dao/ArticleDAO.php';
 
@@ -10,8 +11,13 @@ try {
 } catch (Exception $e) {
     // En cas d'erreur, on tombe sur un tableau vide et on affiche un message
     $articles = [];
-    $error = $e->getMessage();
+    $daoError = $e->getMessage();
 }
+
+// Récupérer les messages de la redirection
+$successMessage = $_GET['success'] ?? null;
+$errorMessage = $_GET['error'] ?? null;
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -26,13 +32,24 @@ try {
         textarea { width:100%; min-height:200px; }
         select, input[type="file"] { width:100%; }
         .note { color:#666; font-size:0.9em; }
+        .message { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
+        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
     <h1>Insérer un article</h1>
 
-    <?php if (!empty($error)): ?>
-        <div style="color:crimson;">Erreur lors de la récupération des articles de référence: <?= htmlspecialchars($error) ?></div>
+    <?php if ($successMessage): ?>
+        <div class="message success"><?= htmlspecialchars($successMessage) ?></div>
+    <?php endif; ?>
+
+    <?php if ($errorMessage): ?>
+        <div class="message error"><?= htmlspecialchars($errorMessage) ?></div>
+    <?php endif; ?>
+
+    <?php if (!empty($daoError)): ?>
+        <div class="message error">Erreur lors de la récupération des articles de référence: <?= htmlspecialchars($daoError) ?></div>
     <?php endif; ?>
 
     <form action="/backoffice/traitement/article/traitement-insert.php" method="post" enctype="multipart/form-data" id="monForm" >

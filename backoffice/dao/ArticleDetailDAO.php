@@ -49,4 +49,15 @@ class ArticleDetailDAO
             throw new RuntimeException('Failed to delete detail: ' . $e->getMessage());
         }
     }
+
+    public function deleteByArticleId($articleId)
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM article_details WHERE article_id = :article_id');
+            $stmt->execute([':article_id' => $articleId]);
+            return true;
+        } catch (PDOException $e) {
+            throw new RuntimeException('Failed to delete details by article ID: ' . $e->getMessage());
+        }
+    }
 }
