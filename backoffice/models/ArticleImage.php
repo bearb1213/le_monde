@@ -34,4 +34,9 @@ class ArticleImage
             'alt' => $this->alt,
         ];
     }
+
+    public function miniature(int $width = 150, int $height = 150): string
+    {
+        return "<img src=\"{$this->chemin}\" alt=\"{$this->alt}\" width=\"{$width}\" height=\"{$height}\">";
+    }
 }

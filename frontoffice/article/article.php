@@ -2,28 +2,33 @@
 // require_once __DIR__ . '/../utils/db.php';
 require_once __DIR__ . '/../../backoffice/dao/ArticleDAO.php';
 require_once __DIR__ . '/../../backoffice/dao/ArticleDetailDAO.php';
+require_once __DIR__ . '/../../backoffice/dao/ArticleImageDAO.php';
 $article = [];
 $details = [];
 try {
     $pdo = getPDO();
-    // article principal
     $articleDao = new ArticleDAO($pdo);
-    $article = $articleDao->findById($_GET['id'] ?? 0);
-    // article details (les articles lies)
     $articleDetailDao = new ArticleDetailDAO($pdo);
+    $articleImageDao = new ArticleImageDAO($pdo);
+    
+    // article principal
+    $article = $articleDao->findById($_GET['id'] ?? 0);
+    
+    // article details (les articles lies)
     $detail_sql = $articleDetailDao->findAllByArticle($_GET['id'] ?? 0);
     if( empty($detail_sql) ) {
         $details = [];
     } else {
-        $detail_ids = array_map(function($d) {
+        $detail_ids = array_map(function($d)  {
             return $d->details;
         } , $detail_sql);
         
         $details = $articleDao->findByIds($detail_ids);
         
-        $details = array_map (function($d) {
-            $d->url = str_replace(' ', '_', $d->titre);
+        $details = array_map (function($d) use ($articleImageDao){
+            $d->url = preg_replace('/\s+/', '-', $d->titre);
             $d->url = "/article/" . $d->url . "-" . $d->id . ".html";
+            $d->images = $articleImageDao->findAllByArticle($d->id);
             return $d;
         } , $details);
     }
@@ -40,41 +45,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= $article->titre ?? '' ?>">
+    <link rel="stylesheet" href="/css/article.css">
     <title><?= $article->titre ?? '' ?></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        main {
-            margin: auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        section {
-            margin-bottom: 30px;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        a {
-            color: #000000;
-            
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
     <main>  
@@ -91,7 +63,14 @@ try {
             <ul>
                 <?php foreach ($details as $d): ?>
 
-                    <li ><a href="<?= $d->url ?>"><?= htmlspecialchars($d->titre) ?></a></li>
+                    <a href="<?= $d->url ?>">
+                        <li >
+                            <?php if (isset($d->images) && !empty($d->images)) {
+                                echo $d->images[0]->miniature(100, 100);
+                            } ?>
+                                <?= htmlspecialchars($d->titre) ?>
+                        </li>
+                    </a>
                 <?php endforeach; ?>
             </ul>
             <?php endif; ?>

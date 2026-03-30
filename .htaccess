@@ -1,14 +1,10 @@
 # liens 
 Options +FollowSymlinks
 RewriteEngine on
-RewriteRule ^/?.*/?.*-([_a-z0-9]*).html$  frontoffice/article/article.php?id=$1 [L]
-
+RewriteRule ^/?article/?.*-([_a-z0-9]*)\.html$  frontoffice/article/article.php?id=$1 [L]
+RewriteRule ^/?[^/]+\.html$ index.php [L]
 
 # mis en cache
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-</IfModule>
 
 
 <IfModule mod_headers.c>
