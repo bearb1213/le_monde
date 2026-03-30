@@ -26,7 +26,7 @@ function redirect(string $location): void
  */
 function getUploadDirectory(): ?array
 {
-    $targetWebPath = '/images/articles';
+    $targetWebPath = '/image';
     $targetAbs = '/var/www/html' . $targetWebPath;
 
     if (!is_dir($targetAbs)) {
@@ -74,7 +74,8 @@ function processImageUploads(int $articleId, array $files, array $imageDescs, Ar
         $origName = basename($files['name'][$i]);
         $ext = pathinfo($origName, PATHINFO_EXTENSION);
         $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', pathinfo($origName, PATHINFO_FILENAME));
-        $newName = $safeName . '_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . ($ext ?: 'jpg');
+        $newName = $safeName . '.' . ($ext ?: 'jpg');
+        // $newName = $safeName . '_' . time() . '_' . bin2hex(random_bytes(6)) . '.' . ($ext ?: 'jpg');
         $dest = rtrim($uploadDir, '/') . '/' . $newName;
 
         if (move_uploaded_file($tmp, $dest)) {
@@ -102,6 +103,7 @@ function createArticleWithDetails(array $postData, ArticleDAO $articleDao, Artic
 {
     $titre = $postData['titre'] ?? '';
     $html = $postData['html'] ?? '';
+    $html = formatBaliseImg($html);
     $ref_articles = $postData['ref_article'] ?? [];
 
     $article = new Article(null, $titre, $html);
@@ -115,6 +117,20 @@ function createArticleWithDetails(array $postData, ArticleDAO $articleDao, Artic
         }
     }
     return $createdArticle;
+}
+/*
+    Formatage des chemin des images
+
+*/
+function formatBaliseImg(string $html): string 
+{
+    $pattern = '/(<img\s+[^>]*src=["\'])(\.\.\/\.\.\/\.\.\/image\/)([^"\']*)(["\'][^>]*>)/i';
+
+    // On remplace le ../../.. par / pour faire un chemin absolu
+    $replacement = '$1/image/$3$4';
+
+    $newHtml = preg_replace($pattern, $replacement, $html);
+    return $newHtml;
 }
 
 
@@ -158,7 +174,7 @@ try {
     );
 
     $pdo->commit();
-    redirect('./insert.php?success=' . urlencode('Article créé avec succès'));
+    redirect('/backoffice/pages/article/insert.php?success=' . urlencode('Article créé avec succès'));
 
 } catch (Exception $e) {
     if ($pdo->inTransaction()) {
@@ -172,5 +188,5 @@ try {
     }
     
     // error_log($e->getMessage());
-    redirect('./insert.php?error=' . urlencode('Une erreur est survenue: ' . $e->getMessage()));
+    redirect('/backoffice/pages/article/insert.php?error=' . urlencode('Une erreur est survenue: ' . $e->getMessage()));
 }

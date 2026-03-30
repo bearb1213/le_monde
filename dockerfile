@@ -10,6 +10,6 @@ RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 # ENV APACHE_RUN_GROUP root
 # # RUN sed -i 's/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=root/g' /etc/apache2/envvars
 # # RUN sed -i 's/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=root/g' /etc/apache2/envvars
-RUN mkdir -p /var/www/html/images/articles && chown -R www-data:www-data /var/www/html/images/articles
+RUN mkdir -p /var/www/html/image && chown -R www-data:www-data /var/www/html/image
 
 WORKDIR /var/www/html

@@ -20,13 +20,13 @@ session_start();
 		<h1>Connexion Backoffice</h1>
 		<?php if (!empty($_SESSION['user'])): ?>
 			<p>Connecté en tant que <strong><?php echo htmlspecialchars($_SESSION['user']['username']); ?></strong></p>
-			<p><a href="login/traitement-logout.php">Se déconnecter</a></p>
+			<p><a href="/backoffice/traitement/login/traitement-logout.php">Se déconnecter</a></p>
 		<?php else: ?>
 			<?php if (!empty($_GET['error'])): ?>
 				<div class="msg"><?php echo htmlspecialchars($_GET['error']); ?></div>
 			<?php endif; ?>
 
-			<form action="login/traitement-login.php" method="post">
+			<form action="/backoffice/traitement/login/traitement-login.php" method="post">
 				<label for="username">Nom d'utilisateur</label>
 				<input id="username" name="username" required>
 

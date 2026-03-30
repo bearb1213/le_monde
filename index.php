@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="backoffice/pages/index.php">Se connecter</a>
+    <a href="backoffice/pages/login/index.php">Se connecter</a>
 </body>
 </html>

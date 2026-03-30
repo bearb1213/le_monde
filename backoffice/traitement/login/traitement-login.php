@@ -13,7 +13,7 @@ $username = isset($_POST['username']) ? trim($_POST['username']) : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
 if ($username === '' || $password === '') {
-    header('Location: ../index.php?error=' . urlencode('Veuillez fournir un nom d\'utilisateur et un mot de passe'));
+    header('Location: ../../../index.php?error=' . urlencode('Veuillez fournir un nom d\'utilisateur et un mot de passe'));
     exit;
 }
 
@@ -24,13 +24,13 @@ try {
         // store minimal data in session
         $_SESSION['user'] = ['id' => $user->id, 'username' => $user->username];
         // rediriger vers la page d'accueil du backoffice
-        header('Location: ../layout.php');
+        header('Location: ../../pages/layout.php');
         exit;
     } else {
-        header('Location: ../index.php?error=' . urlencode('Identifiants invalides'));
+        header('Location: ../../../index.php?error=' . urlencode('Identifiants invalides'));
         exit;
     }
 } catch (Exception $e) {
-    header('Location: ../index.php?error=' . urlencode('Erreur serveur'));
+    header('Location: ../../../index.php?error=' . urlencode('Erreur serveur'));
     exit;
 }
