@@ -1,0 +1,194 @@
+# liens 
+Options +FollowSymlinks
+RewriteEngine on
+RewriteRule ^/?.*/?.*-([_a-z0-9]*).html$  frontoffice/article/article.php?id=$1 [L]
+
+
+# mis en cache
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+
+<IfModule mod_headers.c>
+    Header set X-UA-Compatible "IE=Edge,chrome=1"
+    <FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|xpi|safariextz|vcf)$">
+        Header unset X-UA-Compatible
+    </FilesMatch>
+</IfModule>
+
+<FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
+
+# JavaScript
+AddType application/javascript js
+
+# Audio
+AddType audio/ogg oga ogg
+AddType audio/mp4 m4a
+
+# Video
+AddType video/ogg ogv
+AddType video/mp4 mp4 m4v
+AddType video/webm webm
+
+# SVG (pour webfonts)
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz
+
+# Webfonts
+AddType application/vnd.ms-fontobject eot
+AddType application/x-font-ttf ttf ttc
+AddType font/opentype otf
+AddType application/x-font-woff woff
+
+# Autres types
+AddType image/x-icon ico
+AddType image/webp webp
+AddType text/cache-manifest appcache manifest
+AddType text/x-component htc
+AddType application/x-chrome-extension crx
+AddType application/x-xpinstall xpi
+AddType application/octet-stream safariextz
+AddType text/x-vcard vcf
+
+# ----------------------------------------------------------------------
+# Compression GZip (mod_deflate)
+# ----------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    <IfModule mod_setenvif.c>
+        <IfModule mod_headers.c>
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)s*,?s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+        </IfModule>
+    </IfModule>
+    <IfVersion < 2.4.4>
+        <IfModule filter_module>
+        FilterDeclare   COMPRESS
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/html
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/css
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/plain
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $text/x-component
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/javascript
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/json
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/xhtml+xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/rss+xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/atom+xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/vnd.ms-fontobject
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $image/svg+xml
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/x-font-ttf
+        FilterProvider  COMPRESS  DEFLATE resp=Content-Type $font/opentype
+        FilterChain     COMPRESS
+        FilterProtocol  COMPRESS  DEFLATE change=yes;byteranges=no
+        </IfModule>
+    </IfVersion>
+    <IfVersion >= 2.4.4>
+        <IfModule filter_module>
+        FilterDeclare   COMPRESS
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'text/html'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'text/css'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'text/plain'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'text/xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'text/x-component'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/javascript'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/json'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/xhtml+xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/rss+xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/atom+xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/vnd.ms-fontobject'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'image/svg+xml'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'image/x-icon'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'application/x-font-ttf'"
+        FilterProvider  COMPRESS  DEFLATE "%{Content_Type} = 'font/opentype'"
+        FilterChain     COMPRESS
+        FilterProtocol  COMPRESS  DEFLATE change=yes;byteranges=no
+        </IfModule>
+    </IfVersion>
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Par défaut : 1 mois
+    ExpiresDefault "access plus 1 month"
+
+    # Cache pour les fichiers qui changent rarement
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType video/ogg "access plus 1 month"
+    ExpiresByType audio/ogg "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/webm "access plus 1 month"
+    ExpiresByType font/truetype "access plus 1 month"
+    ExpiresByType font/opentype "access plus 1 month"
+    ExpiresByType application/x-font-woff "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+
+    # Les fichiers HTML/XML/JSON ne doivent pas être mis en cache
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/xml "access plus 0 seconds"
+    ExpiresByType application/xml "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
+    ExpiresByType application/rss+xml "access plus 0 seconds"
+    ExpiresByType application/atom+xml "access plus 0 seconds"
+    ExpiresByType text/cache-manifest "access plus 0 seconds"
+
+    <IfModule mod_headers.c>
+        Header append Cache-Control "public"
+    </IfModule>
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Désactivation des ETag (évite les conflits entre serveurs)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# ----------------------------------------------------------------------
+# Redirection de l'index.php vers la racine (SEO)
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.php\ HTTP/
+    RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Redirection vers HTTPS (si vous avez un certificat)
+# ----------------------------------------------------------------------
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{SERVER_PORT} !^443
+#     RewriteRule ^ https://www.votre-domaine.com%{REQUEST_URI} [R=301,L]
+# </IfModule>
+
+# ----------------------------------------------------------------------
+# Redirection www / non-www (à adapter)
+# ----------------------------------------------------------------------
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTP_HOST} !^www\. [NC]
+#     RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+# </IfModule>
+
+# ----------------------------------------------------------------------
+# Gestion des erreurs 404 personnalisée
+# ----------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------
+# Encodage par défaut UTF-8
+# ----------------------------------------------------------------------
+AddDefaultCharset utf-8
+AddCharset utf-8 .html .css .js .xml .json .rss .atom
