@@ -32,3 +32,10 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (username, password) VALUES ('admin', 'admin');
+
+ALTER TABLE articles
+ADD COLUMN date_publication TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN auteur INTEGER;
+
+ALTER TABLE articles
+ADD CONSTRAINT fk_article_auteur FOREIGN KEY (auteur) REFERENCES users(id);

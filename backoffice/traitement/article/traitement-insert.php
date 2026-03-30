@@ -105,8 +105,13 @@ function createArticleWithDetails(array $postData, ArticleDAO $articleDao, Artic
     $html = $postData['html'] ?? '';
     $html = formatBaliseImg($html);
     $ref_articles = $postData['ref_article'] ?? [];
+    $auteurId = $_SESSION['user']['id'] ?? null; // Récupérer l'ID de l'utilisateur de la session
 
-    $article = new Article(null, $titre, $html);
+    if (!$auteurId) {
+        throw new Exception("Utilisateur non authentifié.");
+    }
+
+    $article = new Article(null, $titre, $html, null, $auteurId);
     $createdArticle = $articleDao->create($article);
 
     foreach ($ref_articles as $ref) {
