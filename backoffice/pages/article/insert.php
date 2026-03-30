@@ -13,7 +13,7 @@ try {
     $error = $e->getMessage();
 }
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
@@ -35,7 +35,7 @@ try {
         <div style="color:crimson;">Erreur lors de la récupération des articles de référence: <?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
-    <form action="traitement-insert.php" method="post" enctype="multipart/form-data">
+    <form action="/backoffice/traitement/article/traitement-insert.php" method="post" enctype="multipart/form-data" id="monForm" >
 
         <!-- Titre -->
         <label for="titre">Titre de l'article</label>
@@ -51,8 +51,8 @@ try {
 
         <!-- Input: HTML de l'article -->
         <label for="myEditor">Contenu HTML</label>
-        <textarea id="myEditor" name="html" placeholder="Colle ton HTML ici...">
-            <p>Écris ici ton texte...</p>
+        <textarea id="myEditor" name="html">
+            
         </textarea>
 
         <!-- Trois selects d'articles de référence -->
@@ -110,17 +110,28 @@ try {
                 renderList(e.target.files);
             });
         })();
+
+
+       
     </script>
 
     <script>
       // Initialisation de TinyMCE
       tinymce.init({
-        selector: '#myEditor',
-        plugins: 'lists link image',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
-        height: 300,
-        license_key: 'gpl'
+        selector: "#myEditor",
+        plugins: 'lists link image table code fullscreen',
+        toolbar:
+          "undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | link image",
+        height: 600,
+        license_key: "gpl",
+        automatic_uploads: true,
+        images_upload_url: "/backoffice/traitement/article/traitement-image.php",
+        
+        file_picker_types: "image",
+
+        
       });
     </script>
 </body>
 </html>
+
