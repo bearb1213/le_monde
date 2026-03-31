@@ -24,23 +24,26 @@ if (!$article) {
     exit;
 }
 
-$pageTitle = 'Article: ' . htmlspecialchars($article->titre);
+if (!defined('LAYOUT_INCLUDED')) {
+    $pageTitle = 'Article: ' . htmlspecialchars($article->titre);
+    $contentFile = __FILE__;
+    require __DIR__ . '/../layout.php';
+    exit;
+}
 
-// Utilisation du layout global
-ob_start();
 ?>
 
 <style>
     .article-content {
-        background-color: #fff;
-        border: 1px solid #e2e8f0;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-color);
         border-radius: 8px;
-        padding: 2rem;
+        padding: 2.5rem;
         margin-top: 1.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     }
     .article-content h1, .article-content h2, .article-content h3 {
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem;
         margin-top: 1.5rem;
     }
@@ -48,10 +51,14 @@ ob_start();
         max-width: 100%;
         height: auto;
         border-radius: 4px;
+        margin: 15px 0;
     }
 </style>
 
-<a href="list.php">&larr; Retour à la liste</a>
+<div style="margin-bottom: 15px;">
+    <a href="list.php" class="btn" style="background:#e0e0e0; color:#333; padding: 6px 12px; font-size: 0.85rem; border-radius: 4px;">&larr; Retour à la liste</a>
+    <a href="edit.php?id=<?= $article->id ?>" class="btn" style="margin-left: 10px; padding: 6px 12px; font-size: 0.85rem;">Modifier</a>
+</div>
 
 <div class="article-meta" style="margin-top: 1rem; color: #666;">
     <span>Publié le: <?= htmlspecialchars(date('d/m/Y H:i', strtotime($article->date_publication))) ?></span>

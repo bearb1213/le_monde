@@ -1,7 +1,4 @@
 <?php
-// backoffice/pages/article/insert.php
-// Formulaire d'insertion d'un article
-session_start();
 
 require_once __DIR__ . '/../../dao/ArticleDAO.php';
 
@@ -18,31 +15,20 @@ try {
 $successMessage = $_GET['success'] ?? null;
 $errorMessage = $_GET['error'] ?? null;
 
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Insérer un article</title>
-    <script src="../tinymce/js/tinymce/tinymce.min.js"></script>
-    <style>
-        body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
-        label { display:block; margin-top:10px; font-weight:600; }
-        textarea { width:100%; min-height:200px; }
-        select, input[type="file"] { width:100%; }
-        .note { color:#666; font-size:0.9em; }
-        .message { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
-        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
-</head>
-<body>
-    <h1>Insérer un article</h1>
+if (!defined('LAYOUT_INCLUDED')) {
+    $pageTitle = 'Insérer un article';
+    $contentFile = __FILE__;
+    require __DIR__ . '/../layout.php';
+    exit;
+}
 
-    <?php if ($successMessage): ?>
-        <div class="message success"><?= htmlspecialchars($successMessage) ?></div>
-    <?php endif; ?>
+?>
+
+<script src="/backoffice/pages/tinymce/js/tinymce/tinymce.min.js"></script>
+
+<?php if ($successMessage): ?>
+    <div class="message success"><?= htmlspecialchars($successMessage) ?></div>
+<?php endif; ?>
 
     <?php if ($errorMessage): ?>
         <div class="message error"><?= htmlspecialchars($errorMessage) ?></div>
@@ -149,6 +135,4 @@ $errorMessage = $_GET['error'] ?? null;
         
       });
     </script>
-</body>
-</html>
 

@@ -28,26 +28,21 @@ try {
     echo 'Erreur: ' . htmlspecialchars($e->getMessage());
     exit;
 }
+
+if (!defined('LAYOUT_INCLUDED')) {
+    $pageTitle = 'Modifier un article';
+    $contentFile = __FILE__;
+    require __DIR__ . '/../layout.php';
+    exit;
+}
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Modifier un article</title>
-    <script src="../tinymce/js/tinymce/tinymce.min.js"></script>
-    <style>
-        body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
-        label { display:block; margin-top:10px; font-weight:600; }
-        textarea { width:100%; min-height:200px; }
-        select, input[type="file"] { width:100%; }
-        .note { color:#666; font-size:0.9em; }
-        .existing-image { display:flex; gap:12px; align-items:center; margin-top:8px; }
-        .existing-image img { max-width:120px; max-height:90px; border:1px solid #ddd; }
-    </style>
-</head>
-<body>
-    <h1>Modifier un article</h1>
+
+<script src="/backoffice/pages/tinymce/js/tinymce/tinymce.min.js"></script>
+<style>
+    .existing-image { display:flex; gap:15px; align-items:center; margin-top:10px; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-surface); }
+    .existing-image img { max-width:120px; max-height:90px; border:1px solid var(--border-color); border-radius: 4px; object-fit: cover; }
+    .note { color: var(--text-secondary); font-size: 0.85em; margin-top: 4px; }
+</style>
 
     <form action="/backoffice/traitement/article/traitement-edit.php" method="post" enctype="multipart/form-data" id="monForm">
         <input type="hidden" name="id" value="<?= (int)$article->id ?>">
@@ -160,5 +155,3 @@ try {
         file_picker_types: 'image',
       });
     </script>
-</body>
-</html>

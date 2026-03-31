@@ -1,0 +1,196 @@
+/* Variables */
+:root {
+    --bg-main: #f4f5f7;
+    --bg-surface: #ffffff;
+    --text-primary: #111111;
+    --text-secondary: #555555;
+    --brand-black: #121212;
+    --brand-yellow: #ffcc00; /* Professional yellow */
+    --brand-yellow-hover: #e6b800;
+    --border-color: #eaeaea;
+    --sidebar-bg: #111111;
+    --sidebar-text: #ffffff;
+    --sidebar-text-muted: #a0a0a0;
+}
+
+/* Reset & Typography */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    color: var(--brand-black);
+    font-weight: 600;
+}
+
+a {
+    color: var(--brand-black);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--brand-yellow-hover);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 24px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--brand-yellow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav {
+    flex-grow: 1;
+}
+
+.nav a {
+    display: block;
+    color: var(--sidebar-text-muted);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.nav a:hover, .nav a.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--sidebar-text);
+    border-left-color: var(--brand-yellow);
+}
+
+.sidebar .date-info {
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: var(--sidebar-text-muted);
+    padding: 15px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 5px;
+}
+
+.header .meta {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Page Body Structure */
+.page-body {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+/* Buttons & Forms */
+.btn, button, input[type="submit"] {
+    background-color: var(--brand-yellow);
+    color: var(--brand-black);
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+
+.btn:hover, button:hover, input[type="submit"]:hover {
+    background-color: var(--brand-yellow-hover);
+    color: var(--brand-black);
+}
+
+input[type="text"], input[type="password"], input[type="email"], textarea, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--brand-black);
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--brand-black);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+tbody tr:hover {
+    background-color: #fcfcfc;
+}
