@@ -23,31 +23,39 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guerre en Iran : les dernières nouvelles et analyses sur le conflit en cours, les développements politiques et les implications régionales.</title>
     <meta name="description" content="Guerre en Iran : les dernières nouvelles et analyses sur le conflit en cours, les développements politiques et les implications régionales.">
-    <link rel="stylesheet" href="/css/article.css">
-    <style>
-        #login-link {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background-color: #007BFF;
-            color: white;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
 </head>
 <body>
-    <a href="backoffice/pages/login/index.php" id="login-link" >Se connecter</a>
-    <h1>La Guerre en Iran les derniers reports en vogue</h1>
-    <main>
-        <?php foreach ($articles as $a): ?>
-            <article>
-                <h2><a href="/article/<?= preg_replace('/\s+/', '-', $a->titre) ?>-<?= $a->id ?>.html"><?= htmlspecialchars($a->titre) ?></a></h2>
-                <?php if (isset($a->images) && !empty($a->images)): ?>
-                    <?= $a->images[0]->miniature(200, 200) ?>
-                <?php endif; ?>
+    <?php include __DIR__ . '/component/header.php'; ?>
+
+    <div class="page-header">
+        <h1>La Guerre en Iran</h1>
+        <p>Les derniers rapports en vogue</p>
+    </div>
+
+    <main class="articles-grid">
+        <?php foreach ($articles as $i => $a): ?>
+            <a href="/article/<?= preg_replace('/\s+/', '-', $a->titre) ?>-<?= $a->id ?>.html">
+            <article class="article-card card-size-1">
+                <div class="card-image">
+                    <?php if (isset($a->images) && !empty($a->images)): ?>
+                        <?= $a->images[0]->miniature(400, 300) ?>
+                    <?php else: ?>
+                        <div class="placeholder-image"></div>
+                    <?php endif; ?>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h2><a href="/article/<?= preg_replace('/\s+/', '-', $a->titre) ?>-<?= $a->id ?>.html"><?= htmlspecialchars($a->titre) ?></a></h2>
+                </div>
             </article>
+            </a>
         <?php endforeach; ?>
+    </main>
+
+    <?php include __DIR__ . '/component/footer.php'; ?>
 </body>
 </html>

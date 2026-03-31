@@ -46,36 +46,50 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= $article->titre ?? '' ?>">
     <link rel="stylesheet" href="/css/article.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
     <title><?= $article->titre ?? '' ?></title>
 </head>
 <body>
-    <main>  
-        <section>
-            <div>
+    <?php include __DIR__ . '/../../component/header.php'; ?>
+
+    <main class="article-main">
+        <article class="article-content">
+            <div class="article-body">
                 <?= $article->html ?? '' ?>
             </div>
-        </section>
-        <section>
-            <?php if (empty($details)): ?>
-                <p>Aucun article lié trouvé.</p>
-            <?php else: ?>
-            <h2>Articles liés</h2>
-            <ul>
-                <?php foreach ($details as $d): ?>
+        </article>
 
-                    <a href="<?= $d->url ?>">
-                        <li >
-                            <?php if (isset($d->images) && !empty($d->images)) {
-                                echo $d->images[0]->miniature(100, 100);
-                            } ?>
+        <section class="related-articles">
+            <div class="section-header">
+                <h2>Articles Liés</h2>
+                <div class="header-line"></div>
+            </div>
+            <?php if (empty($details)): ?>
+                <p class="no-articles">Aucun article lié trouvé.</p>
+            <?php else: ?>
+                <div class="related-grid">
+                    <?php foreach ($details as $d): ?>
+                        <a href="<?= $d->url ?>" class="related-card">
+                            <div class="related-image">
+                                <?php if (isset($d->images) && !empty($d->images)) {
+                                    echo $d->images[0]->miniature(250, 200);
+                                } else { ?>
+                                    <div class="placeholder"></div>
+                                <?php } ?>
+                                <div class="card-badge">Lié</div>
+                            </div>
+                            <div class="related-title">
                                 <?= htmlspecialchars($d->titre) ?>
-                        </li>
-                    </a>
-                <?php endforeach; ?>
-            </ul>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </section>
     </main>
 
+    <?php include __DIR__ . '/../../component/footer.php'; ?>
 </body>
 </html>

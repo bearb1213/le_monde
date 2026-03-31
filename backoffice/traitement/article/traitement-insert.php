@@ -138,6 +138,16 @@ function formatBaliseImg(string $html): string
     return $newHtml;
 }
 
+function enleverCaracteresSpeciaux($texte) {
+    // Remplace les caractères accentués par leurs équivalents simples
+    $texte = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texte);
+
+    // Supprime tout ce qui n'est pas lettre, chiffre, espace, tiret ou underscore
+    $texte = preg_replace('/[^A-Za-z0-9 _-]/', '', $texte);
+
+    return $texte;
+}
+
 
 // --- Début du script principal ---
 
@@ -149,6 +159,7 @@ $titre = isset($_POST['titre']) ? trim($_POST['titre']) : '';
 if ($titre === '') {
     redirect('./insert.php?error=' . urlencode('Le titre est requis'));
 }
+$titre = enleverCaracteresSpeciaux($titre);
 
 $uploadDirInfo = getUploadDirectory();
 if ($uploadDirInfo === null) {
