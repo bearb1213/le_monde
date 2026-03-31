@@ -13,7 +13,9 @@ try {
     
     // article principal
     $article = $articleDao->findById($_GET['id'] ?? 0);
-    
+    //changement du url
+    $article->url = preg_replace('/\s+/', '-', $article->titre);
+    $article->url = "/article/" . $article->url . "-" . $article->id . ".html";
     // article details (les articles lies)
     $detail_sql = $articleDetailDao->findAllByArticle($_GET['id'] ?? 0);
     if( empty($detail_sql) ) {
@@ -89,6 +91,12 @@ try {
             <?php endif; ?>
         </section>
     </main>
+    <script>
+        const bonneUrl = "<?= $article->url ?>";
+        if (window.location.pathname !== bonneUrl) {
+            history.replaceState({}, "", bonneUrl);
+        }
+    </script>
 
     <?php include __DIR__ . '/../../component/footer.php'; ?>
 </body>
