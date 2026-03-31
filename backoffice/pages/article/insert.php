@@ -42,7 +42,7 @@ if (!defined('LAYOUT_INCLUDED')) {
 
         <!-- Titre -->
         <label for="titre">Titre de l'article</label>
-        <input id="titre" name="titre" type="text" placeholder="Titre de l'article" required>
+        <input id="titre" name="titre" type="text" placeholder="Titre de l'article" required autofocus>
 
         <!-- Input: Images (multiple) + descriptions -->
         <label for="images">Images (tu peux en sélectionner plusieurs)</label>

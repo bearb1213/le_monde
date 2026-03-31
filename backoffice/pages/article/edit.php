@@ -49,7 +49,7 @@ if (!defined('LAYOUT_INCLUDED')) {
 
         <!-- Titre -->
         <label for="titre">Titre de l'article</label>
-        <input id="titre" name="titre" type="text" placeholder="Titre de l'article" required value="<?= htmlspecialchars($article->titre) ?>">
+        <input id="titre" name="titre" type="text" placeholder="Titre de l'article" required autofocus value="<?= htmlspecialchars($article->titre) ?>">
 
         <!-- Images existantes -->
         <label>Images existantes</label>
