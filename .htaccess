@@ -146,45 +146,5 @@ AddType text/x-vcard vcf
     </IfModule>
 </IfModule>
 
-# ----------------------------------------------------------------------
-# Désactivation des ETag (évite les conflits entre serveurs)
-# ----------------------------------------------------------------------
-<IfModule mod_headers.c>
-    Header unset ETag
-</IfModule>
-FileETag None
-
-# ----------------------------------------------------------------------
-# Redirection de l'index.php vers la racine (SEO)
-# ----------------------------------------------------------------------
-<IfModule mod_rewrite.c>
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.php\ HTTP/
-    RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
-</IfModule>
-
-# ----------------------------------------------------------------------
-# Redirection vers HTTPS (si vous avez un certificat)
-# ----------------------------------------------------------------------
-# <IfModule mod_rewrite.c>
-#     RewriteCond %{SERVER_PORT} !^443
-#     RewriteRule ^ https://www.votre-domaine.com%{REQUEST_URI} [R=301,L]
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# Redirection www / non-www (à adapter)
-# ----------------------------------------------------------------------
-# <IfModule mod_rewrite.c>
-#     RewriteCond %{HTTP_HOST} !^www\. [NC]
-#     RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
-# </IfModule>
-
-# ----------------------------------------------------------------------
-# Gestion des erreurs 404 personnalisée
-# ----------------------------------------------------------------------
-ErrorDocument 404 /404.html
-
-# ----------------------------------------------------------------------
-# Encodage par défaut UTF-8
-# ----------------------------------------------------------------------
 AddDefaultCharset utf-8
 AddCharset utf-8 .html .css .js .xml .json .rss .atom
