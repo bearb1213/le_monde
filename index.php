@@ -39,7 +39,7 @@ try {
     <main class="articles-grid">
         <?php foreach ($articles as $i => $a): ?>
             <a href="/article/<?= preg_replace('/\s+/', '-', $a->titre) ?>-<?= $a->id ?>.html">
-            <article class="article-card card-size-<?= ($i % 5) + 1 ?>">
+            <article class="article-card card-size-1">
                 <div class="card-image">
                     <?php if (isset($a->images) && !empty($a->images)): ?>
                         <?= $a->images[0]->miniature(400, 300) ?>
